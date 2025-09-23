@@ -1,0 +1,5 @@
+Flask==3.0.3
+Flask-JWT-Extended==4.6.0
+flask-mysql==1.6.0
+flask-sqlalchemy==3.1.1
+pymysql==1.1.2

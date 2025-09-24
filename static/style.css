@@ -1,0 +1,61 @@
+body{
+    background-image: url(/images/fundo-restaurante.png);
+    width: 100%;
+    height: 600px;
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center;
+    align-items: center;
+    color: white;
+    font-family: "Are You Serious", cursive;
+    display: grid;
+    font-size: 25px;
+    margin-top: -100px;
+    
+    
+}
+
+    
+.cabecario {
+    display:flex;
+    justify-content:space-around;
+    padding: 10px;
+    gap: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: -350px;
+  
+
+}
+
+.cabecario a{
+    display:flex;
+    color: white;
+   font-size: 32px;
+    
+
+
+}
+
+.container-principal{
+    display:flex;
+    flex-direction:column ;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    
+}
+
+.botao_reserva a{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 285px;
+    height: 51px;
+    border-radius: 20px;
+    margin-top: -60px;
+
+}
+

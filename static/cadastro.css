@@ -1,0 +1,133 @@
+/* ===== Reset ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* ===== Corpo ===== */
+  body {
+    font-family: "Are You Serious", cursive;
+    background: linear-gradient(135deg, #f9e4c8, #f6c177);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  /* ===== Container Principal ===== */
+  .container-main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px;
+  }
+  
+  /* ===== Cabeçalho ===== */
+  .cabecario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    background-image: url("../images/istockphoto-1333849290-612x612.jpg");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    position: relative;
+  }
+  
+  .cabecario img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+  }
+  
+  .cabecario h1 {
+    font-size: 2.4rem;
+    color: white;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+    letter-spacing: 2px;
+    z-index: 1;
+  }
+  
+  /* ===== Formulário ===== */
+  .formulario {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .formulario h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #8b0000;
+    letter-spacing: 1px;
+  }
+  
+  /* Labels */
+  .formulario label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #333;
+    text-transform: capitalize;
+  }
+  
+  /* Inputs */
+  .formulario input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 2px solid #d32f2f;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .formulario input:focus {
+    border-color: #8b0000;
+    box-shadow: 0 0 8px rgba(211,47,47,0.3);
+  }
+  
+  /* Botões */
+  #button {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  button {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background: #8b0000;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  }
+  
+  .link-botao {
+    text-decoration: none;
+    color: white;
+  }

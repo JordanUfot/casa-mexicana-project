@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Are+You+Serious&display=swap" rel="stylesheet">
+    <title>login</title>
+</head>
+<body>
+
+
+
+    <div class="cabecario">
+            <img src="/static/images/istockphoto-1333849290-612x612.jpg" alt="">
+    <h1> Casa Mexicana</h1>
+   
+    </div>
+    
+        <div class="container-main"></div>
+    <div class= "formulario">
+         <h2>Login</h2>
+        <form action="/login" method="POST"  onsubmit="login()">
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email" maxlength ="100" >
+            <label for="senha">senha:</label>
+            <input type="password" id="senha" name="senha" maxlength ="8">
+          
+            <div id="button">
+                <button type="submit">entrar</button>
+             </div>
+
+         </form>
+
+          
+
+ </div>
+
+
+
+             <script>
+        function login() {
+            alert('login feito com Sucesso!')
+            
+        }
+    </script>
+    </div>
+</body>
+</html>

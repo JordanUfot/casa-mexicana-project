@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Reservas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .message { margin-top: 20px; padding: 10px; border-radius: 5px; }
+        .message.success { background-color: #d4edda; color: #155724; }
+        .message.error { background-color: #f8d7da; color: #721c24; }
+        .loading { text-align: center; padding: 20px; }
+        .logout-btn { background-color: #dc3545; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; float: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="logout-btn" class="logout-btn">Sair</button>
+        <h1>Minhas Reservas</h1>
+        
+        <div id="status-message" class="message"></div>
+        
+        <div class="loading" id="loading-spinner">Carregando reservas...</div>
+        
+        <div id="reservas-container">
+            <!-- As reservas serão injetadas aqui -->
+             {{ for r in resp}}
+             <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+             </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('access_token');
+            const logoutBtn = document.getElementById('logout-btn');
+            const reservasContainer = document.getElementById('reservas-container');
+            const statusMessage = document.getElementById('status-message');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            if (!token) {
+                // Se não houver token, redireciona para a página de login
+                window.location.href = '/login'; // Ajuste o caminho conforme sua rota de login
+                return;
+            }
+
+            // Função para carregar e exibir as reservas
+            const carregarReservas = async () => {
+                loadingSpinner.style.display = 'block';
+                reservasContainer.innerHTML = '';
+                statusMessage.textContent = '';
+                statusMessage.className = 'message';
+
+                try {
+                    const response = await fetch('/visualizar-reserva', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    loadingSpinner.style.display = 'none';
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.reservas && data.reservas.length > 0) {
+                            renderizarTabelaReservas(data.reservas);
+                        } else {
+                            reservasContainer.innerHTML = '<p>Você não tem nenhuma reserva.</p>';
+                        }
+                    } else if (response.status === 401) {
+                        const errorData = await response.json();
+                        statusMessage.textContent = errorData.msg || 'Sessão expirada. Por favor, faça login novamente.';
+                        statusMessage.classList.add('error');
+                        // Limpa o token e redireciona para o login
+                        localStorage.removeItem('access_token');
+                        setTimeout(() => { window.location.href = '/login'; }, 2000);
+                    } else {
+                        const errorData = await response.json();
+                        statusMessage.textContent = errorData.msg || 'Erro ao carregar reservas.';
+                        statusMessage.classList.add('error');
+                    }
+                } catch (error) {
+                    loadingSpinner.style.display = 'none';
+                    statusMessage.textContent = 'Erro de conexão. Tente novamente mais tarde.';
+                    statusMessage.classList.add('error');
+                }
+            };
+
+            // Função para renderizar as reservas em uma tabela HTML
+            const renderizarTabelaReservas = (reservas) => {
+                const tableHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Restaurante</th>
+                                <th>Endereço</th>
+                                <th>Telefone</th>
+                                <th>Data</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>Mesa</th>
+                                <th>Capacidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reservas.map(reserva => `
+                                <tr>
+                                    <td>${reserva.restaurante_nome}</td>
+                                    <td>${reserva.restaurante_endereco}</td>
+                                    <td>${reserva.restaurante_telefone}</td>
+                                    <td>${reserva.data_reserva}</td>
+                                    <td>${reserva.hora_inicio}</td>
+                                    <td>${reserva.hora_final}</td>
+                                    <td>${reserva.numero_mesa}</td>
+                                    <td>${reserva.capacidade}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+                reservasContainer.innerHTML = tableHtml;
+            };
+
+            // Função para fazer logout
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        alert(data.msg); // Exibe a mensagem de logout
+                    }
+                } finally {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/login'; // Redireciona para a página de login após o logout
+                }
+            });
+
+            // Carrega as reservas quando a página é carregada
+            carregarReservas();
+        });
+    </script>
+</body>
+</html>

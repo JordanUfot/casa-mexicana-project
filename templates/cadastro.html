@@ -4,36 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cadastro</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/cadastro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Are+You+Serious&display=swap" rel="stylesheet">
+    
 </head>
+
 <body>
-    <h1> Casa Mexicana</h1>
-    <p>cadastro</p>
-    <div class="formulario">
-        <form actions="/cadastro" method="POST"  onsubmit="cadastrarCliente()">
+
+    <div class="container-main">
+
+      <div class="cabecario">
+        <img src="/static/images/istockphoto-1333849290-612x612.jpg" alt="">
+        <h1> Casa Mexicana</h1>
+      </div>
+    
+      <div class="formulario">
+          <h2>Cadastro</h2>
+          <form actions="/cadastro" id="cadastro" method="POST"  onsubmit="cadastrarCliente()" novalidate>
             <label for="email">email:</label>
-            <input type="email" id="email" name="email" maxlength ="100" >
+            <input type="email" id="email" name="email" required  pattern="ex: [texto]@[texto].[texto]" maxlength ="100" >
+            <span id="emailError" style="color: red;"></span>
             <label for="nome">nome:</label>
-            <input type="text" id="nome" name="nome" maxlength ="100">
-            <label for="criar_senha">criar_senha:</label>
+            <input type="text" id="nome" name="nome" maxlength ="100" pattern="[^0-9]*" title="Please enter only letters and spaces">
+            <label for="criar_senha">criar senha:</label>
             <input type="password" id="senha" name="senha" maxlength ="8">
             <label for="telefone">digite seu telefone:</label>
-            <input type="tel" id="phone" name="phone" pattern="^\(?[1-9]{2}\)?\s?\d{4,5}\-?\d{4}$"/>
+            <input type="tel" id="telefone" name="telefone" autocomplete="tel" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" placeholder="(xx) xxxxx-xxxx" maxlength ="15">
 
-            
             <div id="button">
                <button type="submit">Confirmar</button>
                <button><a href="/login.html" class="link-botao"> login </a></button> 
-
-                
             </div>
-        </form>
+          </form>
+      </div>
     </div>
-    <script>
-        function cadastrarCliente() {
-            alert('Cliente Cadastrado com Sucesso!')
-            
-        }
-    </script>
+
+<script>
+  document.getElementById('nome').addEventListener('input', function(event) {
+    // Replace any character that is not a letter with an empty string
+    event.target.value = event.target.value.replace(/[^a-zA-Z]/g, '');
+  });
+
+  document.getElementById('telefone').addEventListener('input', function (e) {
+    // Remove todos os caracteres que não sejam dígitos
+    var x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        
+    // Aplica a formatação (xx) xxxxx-xxxx
+    e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+  });
+
+// Obtém as referências para os elementos do formulário e de erro
+const emailInput = document.getElementById('email');
+const emailError = document.getElementById('emailError');
+const formulario = document.getElementById('cadastro'); // Certifique-se de ter um ID no seu formulário
+
+// Função de validação de e-mail
+function validarEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  return regex.test(email);
+}
+
+// Evento que verifica o email em tempo real (no campo de input)
+emailInput.addEventListener('input', function() {
+  if (validarEmail(emailInput.value)) {
+    emailError.textContent = ''; // Limpa a mensagem de erro se o email for válido
+  } else {
+    emailError.textContent = 'Por favor, digite um email válido.';
+  }
+});
+
+// Evento que intercepta a submissão do formulário
+formulario.addEventListener('submit', function(event) {
+  // A função trim() remove espaços em branco no início e no fim da string
+  const emailValue = emailInput.value.trim(); 
+
+  // Se a validação falhar...
+  if (!validarEmail(emailValue)) {
+    event.preventDefault(); // Impede o envio do formulário
+    emailError.textContent = 'É preciso que o formato corresponda ao exigido.';
+  }
+});
+</script>
+
+  <script>
+    function cadastrarCliente() {
+      alert('Cliente Cadastrado com Sucesso!')
+    };
+  </script>
 </body>
 </html>
